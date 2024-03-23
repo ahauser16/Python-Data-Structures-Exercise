@@ -1,5 +1,4 @@
-# Using Python's built-in string methods and slicing:
-# This method first cleans the input phrase by converting it to lowercase and removing any non-alphanumeric characters. It then checks if the cleaned phrase is the same as its reverse. This method is very efficient as it only requires a single pass through the string, resulting in a time complexity of O(n).
+# Pros: This function is straightforward and easy to understand. It uses Python's built-in string methods and slicing to reverse the string. Cons: It creates a new string in memory when reversing the phrase, which can be inefficient for large inputs.
 
 
 def is_palindrome(phrase):
@@ -25,11 +24,11 @@ def is_palindrome(phrase):
         >>> is_palindrome('Noon')
         True
     """
-    cleaned = "".join(c for c in phrase.lower() if c.isalnum())
-    return cleaned == cleaned[::-1]
+    phrase = phrase.replace(" ", "").lower()
+    return phrase == phrase[::-1]
 
 
-# Using a loop to compare characters from both ends:
+# Pros: This function is more memory-efficient than the first one because it doesn't create a new string in memory. It only checks up to the middle of the string, which can save time for large inputs. Cons: It's slightly more complex than the first function.
 def is_palindrome2(phrase):
     """Is phrase a palindrome?
 
@@ -53,17 +52,16 @@ def is_palindrome2(phrase):
         >>> is_palindrome2('Noon')
         True
     """
-    cleaned = "".join(c for c in phrase.lower() if c.isalnum())
-    for i in range(len(cleaned) // 2):
-        if cleaned[i] != cleaned[-i - 1]:
+    phrase = phrase.replace(" ", "").lower()
+    for i in range(len(phrase) // 2):
+        if phrase[i] != phrase[-i - 1]:
             return False
     return True
 
 
-# Using Python's built-in reversed() function and join():
-# This method cleans the input phrase and then uses the reversed() function to create a reversed copy of the cleaned phrase. It then checks if the cleaned phrase is the same as its reversed copy.
+# Pros: This function uses regular expressions to remove all non-alphanumeric characters, not just spaces. This makes it more flexible and able to handle a wider range of inputs. Cons: It's more complex than the other two functions and may be harder to understand for someone not familiar with regular expressions. It also has the same memory inefficiency as the first function when reversing the string.  import re is a statement in Python that includes the re module in your program. The re module stands for Regular Expressions, which is a powerful tool for manipulating text and data.  You can use it to check if a string contains a certain pattern, replace parts of a string, and much more. In the context of the is_palindrome3 function, re.sub(r'\W+', '', phrase) is used to remove all non-alphanumeric characters from the phrase. The \W+ is a regular expression pattern that matches any non-alphanumeric character.
 
-
+import re
 def is_palindrome3(phrase):
     """Is phrase a palindrome?
 
@@ -87,5 +85,5 @@ def is_palindrome3(phrase):
         >>> is_palindrome3('Noon')
         True
     """
-    cleaned = "".join(c for c in phrase.lower() if c.isalnum())
-    return cleaned == "".join(reversed(cleaned))
+    phrase = re.sub(r"\W+", "", phrase).lower()
+    return phrase == phrase[::-1]
